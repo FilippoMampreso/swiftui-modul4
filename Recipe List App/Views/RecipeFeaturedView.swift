@@ -21,43 +21,43 @@ struct RecipeFeaturedView: View {
                 .padding(.top)
                 .font(.largeTitle)
             
-        GeometryReader { geo in
-        
-        TabView {
-            
-            //Loop through each recipe
-            
-            ForEach(0..<model.recipes.count) { index in
+            GeometryReader { geo in
                 
-                //Only show those that should be featured
-                
-                if model.recipes[index].featured {
+                TabView {
                     
-                   //Recipe Card
-                    ZStack {
+                    //Loop through each recipe
+                    
+                    ForEach(0..<model.recipes.count) { index in
                         
-                        Rectangle()
-                            .foregroundColor(.white)
+                        //Only show those that should be featured
+                        
+                        if model.recipes[index].featured {
                             
-                        VStack(spacing: 0) {
-                            
-                            Image(model.recipes[index].image)
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                            Text(model.recipes[index].name)
-                                .padding()
-                            
+                            //Recipe Card
+                            ZStack {
+                                
+                                Rectangle()
+                                    .foregroundColor(.white)
+                                
+                                VStack(spacing: 0) {
+                                    
+                                    Image(model.recipes[index].image)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                    Text(model.recipes[index].name)
+                                        .padding()
+                                    
+                                }
+                            }
+                            .frame(width: geo.size.width - 40, height: geo.size.height - 100, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
+                            .cornerRadius(15)
+                            .shadow(color: Color(.sRGB, red: 0, green: 0, blue: 0, opacity: 0.5), radius: 5, x: -5, y: 5)
                         }
                     }
-                    .frame(width: geo.size.width - 40, height: geo.size.height - 100, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                    .cornerRadius(15)
-                    .shadow(color: Color(.sRGB, red: 0, green: 0, blue: 0, opacity: 0.5), radius: 5, x: -5, y: 5)
                 }
+                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
+                .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
             }
-        }
-        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
-        .indexViewStyle(PageIndexViewStyle(backgroundDisplayMode: .always))
-        }
             
             VStack(alignment: .leading, spacing: 10) {
                 Text("Preparation time:")
@@ -68,7 +68,6 @@ struct RecipeFeaturedView: View {
                 Text("Vegetaria")
             }
             .padding([.leading, .bottom])
-        
         }
     }
 }
