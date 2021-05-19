@@ -13,6 +13,8 @@ struct RecipeFeaturedView: View {
     
     @State var isDetailViewShowing = false
     
+    @State var selectedRecipeIndex = 0
+    
     var body: some View {
         
         VStack(alignment: .leading, spacing: 0) {
@@ -25,7 +27,7 @@ struct RecipeFeaturedView: View {
             
             GeometryReader { geo in
                 
-                TabView {
+                TabView(selection: $selectedRecipeIndex) {
                     
                     //Loop through each recipe
                     
@@ -56,6 +58,7 @@ struct RecipeFeaturedView: View {
                                         
                                     }
                                 }                            })
+                            .tag(index)
                             .sheet(isPresented: $isDetailViewShowing) {
                                 //Show the recipe detail view
                                 RecipeDetailView(recipe: model.recipes[index])
@@ -74,15 +77,29 @@ struct RecipeFeaturedView: View {
             VStack(alignment: .leading, spacing: 10) {
                 Text("Preparation time:")
                     .font(.headline)
-                Text("1 hour")
+                Text(model.recipes[selectedRecipeIndex].prepTime)
                 Text("Highlights:")
                     .font(.headline)
-                Text("Vegetaria")
+                RecipeHighLights(highlights: model.recipes[selectedRecipeIndex].highlights)
+                }
             }
             .padding([.leading, .bottom])
-        }
+        .onAppear(perform: {
+            setFeaturedIndex()
+        })
     }
-}
+    
+    
+    func setFeaturedIndex() {
+        
+        //find the index reciped that has is feature
+        var index = model.recipes.firstIndex { (recipe) -> Bool in
+            return recipe.featured
+        }
+        selectedRecipeIndex = index ?? 0
+    }
+    
+    }
 
 struct RecipeFeaturedView_Previews: PreviewProvider {
     static var previews: some View {
